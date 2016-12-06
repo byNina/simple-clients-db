@@ -26,35 +26,37 @@ import com.netcracker.services.CustomerTypeService;
  */
 @Controller
 public class MainController {
-	
+
+	@SuppressWarnings("rawtypes")
 	@Autowired
 	private CustomerService customerService;
-	
+
+	@SuppressWarnings("rawtypes")
 	@Autowired
 	private CustomerTypeService customerTypeService;
 
-	@RequestMapping (value = "main", method = RequestMethod.GET)
-	public String showMainPage(Model model){
+	@RequestMapping(value = "main", method = RequestMethod.GET)
+	public String showMainPage(Model model) {
 		return "main";
 	}
-	
-	@RequestMapping (value = "test", method = RequestMethod.GET)
-	public String test (Model model){
+
+	@RequestMapping(value = "test", method = RequestMethod.GET)
+	public String test(Model model) {
 		return "test";
 	}
-	
-	@RequestMapping (value = "toCreateNewCustomer", method = RequestMethod.GET)
-	public String toCreateNewCustomer (ModelMap model){
-		List<CustomerType> customerTypes=new ArrayList<CustomerType>();
-		try{
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "toCreateNewCustomer", method = RequestMethod.GET)
+	public String toCreateNewCustomer(ModelMap model) {
+		List<CustomerType> customerTypes = new ArrayList<CustomerType>();
+		try {
 			customerTypes = customerTypeService.findAll();
 			model.addAttribute("customerTypes", customerTypes);
-			System.out.println("customerTypes" + customerTypes);
-		}catch(ServiceException e){
+		} catch (ServiceException e) {
 			model.addAttribute("error", Messanger.GET_TYPES_ERROR);
 		}
-		
+
 		return "createCustomer";
 	}
-	
+
 }
