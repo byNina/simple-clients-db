@@ -25,6 +25,9 @@ public class CustomerTypeDaoImpl extends BaseDaoImpl<CustomerType> implements Cu
 	private static Logger log = Logger.getLogger(CustomerTypeDaoImpl.class);
 	private static final String FIND_ALL = "FROM CustomerType";
 
+	public CustomerTypeDaoImpl() {
+	}
+	
 	@Autowired
 	protected SessionFactory sessionFactory;
 

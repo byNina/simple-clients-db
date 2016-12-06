@@ -11,17 +11,18 @@ import javax.persistence.*;
  *
  */
 @javax.persistence.Entity
-@Table (name="CUSTOMER_TYPES")
+@Table (name="customer_types")
 public class CustomerType extends Entity{
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column (name="customer_type_id")
 	@SequenceGenerator(name="my_seq", sequenceName="seq_01")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="my_seq")
 	private Integer id;
 
-	@Column (name="CUSTOMER_TYPE_CAPTION")
+	@Column (name="customer_type_caption")
 	private String customerTypeCaption;
 
 	public Integer getId() {

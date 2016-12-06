@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -43,11 +44,12 @@ public class MainController {
 	}
 	
 	@RequestMapping (value = "toCreateNewCustomer", method = RequestMethod.GET)
-	public String toCreateNewCustomer (Model model){
+	public String toCreateNewCustomer (ModelMap model){
 		List<CustomerType> customerTypes=new ArrayList<CustomerType>();
 		try{
 			customerTypes = customerTypeService.findAll();
 			model.addAttribute("customerTypes", customerTypes);
+			System.out.println("customerTypes" + customerTypes);
 		}catch(ServiceException e){
 			model.addAttribute("error", Messanger.GET_TYPES_ERROR);
 		}

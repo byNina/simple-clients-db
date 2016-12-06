@@ -12,32 +12,33 @@ import javax.persistence.*;
  *
  */
 @javax.persistence.Entity
-@Table(name="CUSTOMERS")
+@Table(name="customers")
 public class Customer extends Entity {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column (name="customer_id")
 	@SequenceGenerator(name="my_seq", sequenceName="seq_01")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="my_seq")
 	private Integer id;
 
-	@Column (name="TITLE")
+	@Column (name="title")
 	private String title;
 	
-	@Column (name="FIRST_NAME")
+	@Column (name="first_name")
 	private String firstName;
 	
-	@Column (name="FIRST_NAME_METAPHONE")
+	@Column (name="first_name_metaphone")
 	private String firstNameMetaphone;
 	
-	@Column (name="LAST_NAME")
+	@Column (name="last_name")
 	private String lastName;
 	
-	@Column (name="LAST_NAME_METAPHONE")
+	@Column (name="last_name_metaphone")
 	private String lastNameMetaphone;
 	
-	@Column (name="MODIFIED_WHEN")
+	@Column (name="modified_when")
 	private Date modifiedWhen;
 	
 	@ManyToOne (cascade=CascadeType.ALL, fetch=FetchType.EAGER)
