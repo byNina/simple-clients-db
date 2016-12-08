@@ -16,32 +16,38 @@
 		<%@ include file="/WEB-INF/jsp/elements/_header.jsp"%>
 	</div>
 	<div class="container">
-		${error}
-		<table>
-			<tr>
-				<td>Title</td>
-				<td><input type="text" name="title" value="" /></td>
-			</tr>
-			<tr>
-				<td>First Name</td>
-				<td><input type="text" name="firstName" value="" /></td>
-			</tr>
-			<tr>
-				<td>Last Name</td>
-				<td><input type="text" name="lastName" value="" /></td>
-			</tr>
-			<tr>
-				<td>Type</td>
-				<td><select name="type">
-						<c:forEach items="${customerTypes}" var="item">
-							<option value="${item.customerTypeCaption}">${item.customerTypeCaption}</option>
-						</c:forEach>
-				</select></td>
-			</tr>
+		<h2>Create a new customer</h2>
+		<p>${errorMessage}</p>
+		
+		<form name="customerCreation" action="${pageContext.servletContext.contextPath}/createNewCustomer" method="GET">
+			<table>
+				<tr>
+					<td>Title</td>
+					<td><input type="text" name="title" pattern="[a-zA-Z]{1,3}"
+						placeholder="Mr/Ms/Mrs/Dr" value="" /></td>
+				</tr>
+				<tr>
+					<td>First Name</td>
+					<td><input type="text" name="firstName" pattern="^[a-zA-Z]{3,50}"
+						value="" /></td>
+				</tr>
+				<tr>
+					<td>Last Name</td>
+					<td><input type="text" name="lastName" pattern="^[a-zA-Z]{4,50}"
+						value="" /></td>
+				</tr>
+				<tr>
+					<td>Type</td>
+					<td><select name="type">
+							<c:forEach items="${customerTypes}" var="item">
+								<option value="${item.id}">${item.customerTypeCaption}</option>
+							</c:forEach>
+					</select></td>
+				</tr>
 
-		</table>
-		<input type="submit" value="Create">
-
+			</table>
+			<input type="submit" value="Create">
+		</form>
 
 
 	</div>

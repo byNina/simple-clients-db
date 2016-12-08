@@ -18,29 +18,42 @@ public interface CustomerService<T> {
 	 * 
 	 * @param t
 	 */
-	void save(T t)  throws ServiceException ;
+	void save(T t) throws ServiceException;
 
 	/**
 	 * Delete existing customer
 	 * 
 	 * @param t
 	 */
-	void delete(T t) throws ServiceException ;
+	void delete(T t) throws ServiceException;
 
 	/**
-	 * Find a list of customers by first name and last name using metaphone algorithm
+	 * Find a list of customers by first name and last name using metaphone
+	 * algorithm
 	 * 
 	 * @param firstName
 	 * @param lastName
 	 * @return
 	 */
-	List<T> find(String firstName, String lastName)  throws ServiceException ;
+	List<T> find(String firstName, String lastName) throws ServiceException;
 
 	/**
 	 * Find a list of customers without any params
 	 * 
 	 * @return
 	 */
-	List<T> find()  throws ServiceException ;
+	List<T> find() throws ServiceException;
+
+	/**
+	 * Create a new customer in Database according to params
+	 * 
+	 * @param title
+	 * @param firstName
+	 * @param lastName
+	 * @param type
+	 * @throws ServiceException
+	 */
+
+	void create(String title, String firstName, String lastName, int type) throws ServiceException;
 
 }

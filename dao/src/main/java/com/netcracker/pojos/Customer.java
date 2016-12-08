@@ -12,37 +12,57 @@ import javax.persistence.*;
  *
  */
 @javax.persistence.Entity
-@Table(name="customers")
+@Table(name = "customers")
 public class Customer extends Entity {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column (name="customer_id")
-	@SequenceGenerator(name="my_seq", sequenceName="seq_01")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE ,generator="my_seq")
+	@Column(name = "customer_id")
+	@SequenceGenerator(name = "my_seq", sequenceName = "seq_01")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq")
 	private Integer id;
 
-	@Column (name="title")
+	@Column(name = "title")
 	private String title;
-	
-	@Column (name="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column (name="first_name_metaphone")
+
+	@Column(name = "first_name_metaphone")
 	private String firstNameMetaphone;
-	
-	@Column (name="last_name")
+
+	@Column(name = "last_name")
 	private String lastName;
-	
-	@Column (name="last_name_metaphone")
+
+	@Column(name = "last_name_metaphone")
 	private String lastNameMetaphone;
-	
-	@Column (name="modified_when")
+
+	@Column(name = "modified_when")
 	private Date modifiedWhen;
-	
-	@ManyToOne (cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private CustomerType customerType;
+
+	public Customer() {
+
+	}
+
+	
+
+	public Customer(String title, String firstName, String firstNameMetaphone, String lastName,
+			String lastNameMetaphone, Date modifiedWhen, CustomerType customerType) {
+		super();
+		this.title = title;
+		this.firstName = firstName;
+		this.firstNameMetaphone = firstNameMetaphone;
+		this.lastName = lastName;
+		this.lastNameMetaphone = lastNameMetaphone;
+		this.modifiedWhen = modifiedWhen;
+		this.customerType = customerType;
+	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -180,7 +200,5 @@ public class Customer extends Entity {
 		return "Customers [id=" + id + ", title=" + title + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", modifiedWhen=" + modifiedWhen + ", customerType=" + customerType + "]";
 	}
-	
-	
 
 }
