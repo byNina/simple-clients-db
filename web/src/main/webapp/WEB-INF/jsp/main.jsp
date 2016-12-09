@@ -15,6 +15,7 @@
 	<div class="container">
 		Main page 
 		<p>${successMessage}</p>
+		<p>${errorMessage}</p>
 		<p></p>
 		<a href="test"> Test</a>
 	</div>

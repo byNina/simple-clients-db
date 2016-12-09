@@ -41,7 +41,7 @@ public class Customer extends Entity {
 	@Column(name = "modified_when")
 	private Date modifiedWhen;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	private CustomerType customerType;
 
 	public Customer() {

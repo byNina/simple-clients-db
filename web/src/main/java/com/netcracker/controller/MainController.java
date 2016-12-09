@@ -52,14 +52,13 @@ public class MainController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "toCreateNewCustomer", method = RequestMethod.GET)
 	public String toCreateNewCustomer(ModelMap model) {
-		List<CustomerType> customerTypes = new ArrayList<CustomerType>();
+		List<CustomerType> customerTypes = null;
 		try {
 			customerTypes = customerTypeService.findAll();
 			model.addAttribute("customerTypes", customerTypes);
 		} catch (ServiceException e) {
 			model.addAttribute("errorMessage", Messanger.GET_TYPES_ERROR);
 		}
-
 		return "createCustomer";
 	}
 
@@ -99,12 +98,78 @@ public class MainController {
 			}
 			if (customers != null && !customers.isEmpty()) {
 				model.addAttribute("customers", customers);
-				page = "customerList";
+				page = "customersList";
 			} else {
 				model.addAttribute("error", Messanger.CUSTOMERS_NOT_FOUND);
 			}
 		} catch (ServiceException e) {
 			model.addAttribute("error", Messanger.FINDING_CUSTOMERS_ERROR);
+		}
+		return page;
+	}
+
+	@RequestMapping(value = "customerInfo", method = RequestMethod.GET)
+	public String customerInfo(ModelMap model, HttpServletRequest request) {
+		String page = "customerInfo";
+		Customer customer = null;
+		int customerId = Integer.parseInt(request.getParameter("customerId"));
+		try {
+			customer = (Customer) customerService.get(customerId);
+			model.addAttribute("customer", customer);
+		} catch (ServiceException e) {
+			model.addAttribute("errorMessage", Messanger.GETTING_CUSTOMER_ERROR);
+		}
+		return page;
+	}
+
+	@RequestMapping(value = "deleteCustomer", method = RequestMethod.GET)
+	public String deleteCustomer(ModelMap model, HttpServletRequest request) {
+		String page = "customerInfo";
+		int customerId = Integer.parseInt(request.getParameter("customerId"));
+		try {
+			customerService.delete(customerId);
+			page = "main";
+		} catch (ServiceException e) {
+			model.addAttribute("errorMessage", Messanger.DELETING_CUSTOMER_ERROR);
+		}
+		return page;
+	}
+
+	@RequestMapping(value = "toModifyCustomer", method = RequestMethod.GET)
+	public String toModifyCustomer(ModelMap model, HttpServletRequest request) {
+		String page = "modifyCustomer";
+		List<CustomerType> customerTypes = null;
+		Customer customer = null;
+		int customerId = Integer.parseInt(request.getParameter("customerId"));
+		System.out.println("CustomerId" + customerId);
+		try {
+			customerTypes = customerTypeService.findAll();
+			customer = (Customer) customerService.get(customerId);
+			if (customerTypes != null && !customerTypes.isEmpty() && customer != null) {
+				model.addAttribute("customerTypes", customerTypes);
+				model.addAttribute("customer", customer);
+			}
+		} catch (ServiceException e) {
+			model.addAttribute("errorMessage", Messanger.GET_TYPES_ERROR);
+		}
+		return page;
+	}
+
+	@RequestMapping(value = "modifyCustomer", method = RequestMethod.GET)
+	public String modifyCustomer(ModelMap model, HttpServletRequest request) {
+		String page = "toModifyCustomer";
+		int customerId = Integer.parseInt(request.getParameter("customerId"));
+		try {
+			Customer customer = (Customer) customerService.get(customerId);
+			if (customer != null && modifyCustomer(customer, request)) {
+				customerService.saveOrUpdate(customer);
+				model.addAttribute("customer", customer);
+				page = "customerInfo";
+			} else {
+				model.addAttribute("errorMessage", Messanger.MODIFY_CUSTOMER_ERROR);
+			}
+		} catch (ServiceException e) {
+			model.addAttribute("errorMessage", Messanger.MODIFY_CUSTOMER_ERROR);
 		}
 		return page;
 	}
@@ -146,6 +211,30 @@ public class MainController {
 		} else {
 			return false;
 		}
+	}
+
+	private boolean modifyCustomer(Customer customer, HttpServletRequest request) throws ServiceException {
+		boolean isModified = false;
+		String title = request.getParameter("title");
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		int typeId = Integer.parseInt(request.getParameter("typeId"));
+		if (isValid(title, firstName, lastName, typeId)) {
+			CustomerType type = null;
+			try {
+				type = (CustomerType) customerTypeService.get(typeId);
+			} catch (ServiceException e) {
+				throw e;
+			}
+			if (type != null) {
+				customer.setTitle(request.getParameter("title"));
+				customer.setFirstName(request.getParameter("firstName"));
+				customer.setLastName(request.getParameter("lastName"));
+				customer.setCustomerType(type);
+				isModified = true;
+			}
+		}
+		return isModified;
 	}
 
 }

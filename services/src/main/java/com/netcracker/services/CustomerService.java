@@ -3,6 +3,7 @@
  */
 package com.netcracker.services;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.netcracker.exceptions.ServiceException;
@@ -18,7 +19,7 @@ public interface CustomerService<T> {
 	 * 
 	 * @param t
 	 */
-	void save(T t) throws ServiceException;
+	void saveOrUpdate(T t) throws ServiceException;
 
 	/**
 	 * Delete existing customer
@@ -56,4 +57,23 @@ public interface CustomerService<T> {
 
 	void create(String title, String firstName, String lastName, int type) throws ServiceException;
 
+	/**
+	 * Get a customer by his id
+	 * 
+	 * @param id
+	 * @return
+	 * @throws ServiceException
+	 */
+	T get(Serializable id) throws ServiceException;
+	
+	/**
+	 * Delete customer by his id
+	 * 
+	 * @param id
+	 * @throws ServiceException
+	 */
+	
+	void delete(Serializable id) throws ServiceException;
+	
+	
 }

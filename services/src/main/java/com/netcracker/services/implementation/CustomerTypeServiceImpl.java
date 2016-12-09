@@ -3,6 +3,7 @@
  */
 package com.netcracker.services.implementation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,16 @@ public class CustomerTypeServiceImpl implements CustomerTypeService<CustomerType
 			throw new ServiceException(e);
 		}
 		return customerTypes;
+	}
+
+	public CustomerType get(Serializable id) throws ServiceException {
+		CustomerType type = null;
+		try { 
+			type = customerTypeDao.get(id);
+		}catch (DaoException e){
+			throw new ServiceException(e);
+		}
+		return type;
 	}
 
 }

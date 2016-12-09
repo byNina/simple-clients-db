@@ -3,6 +3,7 @@
  */
 package com.netcracker.services.implementation;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 
 	private static Metaphone metaphone = new Metaphone();
 
-	public void save(Customer customer) throws ServiceException {
+	public void saveOrUpdate(Customer customer) throws ServiceException {
 		try {
 			customerDao.saveOrUpdate(customer);
 		} catch (DaoException e) {
@@ -45,10 +46,19 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 		}
 	}
 
+	public Customer get(Serializable id) throws ServiceException {
+		Customer customer = null;
+		try {
+			customer = customerDao.get(id);
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
+		return customer;
+	}
+
 	public void delete(Customer customer) throws ServiceException {
 		try {
 			customerDao.delete(customer);
-			;
 		} catch (DaoException e) {
 			throw new ServiceException(e);
 		}
@@ -56,8 +66,10 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 
 	public List<Customer> find(String firstName, String lastName) throws ServiceException {
 		List<Customer> customers = null;
+		String metaFirstName = metaphone.encode(firstName);
+		String metaLastName = metaphone.encode(lastName);
 		try {
-			customers = customerDao.findByParams(firstName, lastName);
+			customers = customerDao.findByParams(metaFirstName, metaLastName);
 		} catch (DaoException e) {
 			throw new ServiceException(e);
 		}
@@ -81,6 +93,16 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 			customerDao.save(newCustomer);
 		} catch (DaoException e) {
 			throw new ServiceException(e);
+		}
+	}
+
+	public void delete(Serializable id) throws ServiceException {
+		Customer customer = null;
+		try {
+			customer = get(id);
+			delete(customer);
+		} catch (ServiceException e) {
+			throw e;
 		}
 	}
 

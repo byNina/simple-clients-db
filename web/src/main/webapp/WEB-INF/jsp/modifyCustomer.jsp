@@ -16,43 +16,46 @@
 		<%@ include file="/WEB-INF/jsp/elements/_header.jsp"%>
 	</div>
 	<div class="container">
-		<h2>Create a new customer</h2>
-		<p>${errorMessage}</p>
-		
-		<form name="customerCreation" action="${pageContext.servletContext.contextPath}/createNewCustomer" method="GET">
+		Modify customer
+
+		<form
+			action="${pageContext.servletContext.contextPath}/modifyCustomer"
+			method="get">
 			<table>
 				<tr>
 					<td>Title</td>
-					<td><input type="text" name="title" required pattern="[a-zA-Z]{1,3}"
-						placeholder="Mr/Ms/Mrs/Dr" value="" /></td>
+					<td><input type="text" name="title" pattern="[a-zA-Z]{1,3}"
+						value="${customer.title}" /></td>
 				</tr>
 				<tr>
 					<td>First Name</td>
-					<td><input type="text" name="firstName" required pattern="^[a-zA-Z]{3,50}"
-						value="" /></td>
+					<td><input type="text" name="firstName"
+						pattern="^[a-zA-Z]{3,50}" value="${customer.firstName}" /></td>
 				</tr>
 				<tr>
 					<td>Last Name</td>
-					<td><input type="text" name="lastName" required pattern="^[a-zA-Z]{4,50}"
-						value="" /></td>
+					<td><input type="text" name="lastName"
+						pattern="^[a-zA-Z]{4,50}" value="${customer.lastName}" /></td>
 				</tr>
 				<tr>
 					<td>Type</td>
-					<td><select name="type">
+					<td><select name="typeId">
 							<c:forEach items="${customerTypes}" var="item">
-								<option value="${item.id}">${item.customerTypeCaption}</option>
+								<c:choose>
+									<c:when test="${customer.customerType.id == item.id}">
+										<option selected value="${item.id}">${item.customerTypeCaption}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${item.id}">${item.customerTypeCaption}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 					</select></td>
 				</tr>
 
 			</table>
-			<input type="submit" value="Create">
+			<input type="hidden" name="customerId" value="${customer.id}"/>
+			<input type="submit" value="Save modification"/>
 		</form>
-
-
-	</div>
-
-
-
 </body>
 </html>

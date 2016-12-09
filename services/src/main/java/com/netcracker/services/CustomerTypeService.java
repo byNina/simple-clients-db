@@ -3,6 +3,7 @@
  */
 package com.netcracker.services;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.netcracker.exceptions.ServiceException;
@@ -14,5 +15,7 @@ import com.netcracker.exceptions.ServiceException;
 public interface CustomerTypeService<T> {
 	
 	List<T> findAll() throws ServiceException;
+	
+	T get (Serializable id) throws ServiceException;
 
 }
