@@ -24,7 +24,9 @@ import com.netcracker.pojos.Customer;
 @Repository
 public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDao {
 	private static Logger log = Logger.getLogger(CustomerDaoImpl.class);
-	private static String GET_CUSTOMERS_BY_PARAMS = "FROM Customer c WHERE c.firstNameMetaphone=:firstName AND c.lastNameMetaphone=:lastName";
+
+	private static String GET_CUSTOMERS_BY_PARAMS = "FROM Customer c WHERE c.firstNameMetaphone LIKE :firstName AND c.lastNameMetaphone LIKE :lastName";
+	private static String GET_LAST_MODIFIED_CUSTOMERS = "FROM Customer c ORDER BY modifiedWhen DESC";
 
 	@Autowired
 	protected SessionFactory sessionFactory;
@@ -44,6 +46,19 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 			log.info("Successfully found customers by parameters");
 		} catch (HibernateException e) {
 			log.error("Error during find customers by parameters");
+			throw new DaoException(e);
+		}
+		return customers;
+	}
+
+	public List<Customer> find() throws DaoException {
+		log.info("Finding 10 last modified customers");
+		List<Customer> customers = new ArrayList<Customer>();
+		try {
+			Query query = getSession().createQuery(GET_LAST_MODIFIED_CUSTOMERS);
+			customers = query.getResultList();
+			log.info("Successfully found 10 last modified customers");
+		} catch (HibernateException e) {
 			throw new DaoException(e);
 		}
 		return customers;

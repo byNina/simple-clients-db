@@ -15,5 +15,7 @@ import com.netcracker.pojos.Customer;
 public interface CustomerDao extends BaseDao<Customer> {
 
 	List<Customer> findByParams(String firstName, String lastName)  throws DaoException ;
+	
+	List<Customer> find() throws DaoException;
 
 }

@@ -4,6 +4,8 @@
 package com.netcracker.services.implementation;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 	}
 
 	public Customer get(Serializable id) throws ServiceException {
-		Customer customer = null;
+		Customer customer;
 		try {
 			customer = customerDao.get(id);
 		} catch (DaoException e) {
@@ -65,9 +67,19 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 	}
 
 	public List<Customer> find(String firstName, String lastName) throws ServiceException {
-		List<Customer> customers = null;
-		String metaFirstName = metaphone.encode(firstName);
-		String metaLastName = metaphone.encode(lastName);
+		List<Customer> customers;
+		String metaFirstName;
+		String metaLastName;
+		if (firstName != "") {
+			metaFirstName = metaphone.encode(firstName);
+		} else {
+			metaFirstName = "%";
+		}
+		if (lastName != "") {
+			metaLastName = metaphone.encode(lastName);
+		} else {
+			metaLastName = "%";
+		}
 		try {
 			customers = customerDao.findByParams(metaFirstName, metaLastName);
 		} catch (DaoException e) {
@@ -76,9 +88,14 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 		return customers;
 	}
 
-	public List<Customer> find() {
-		// TODO Find 10 last modified customers
-		return null;
+	public List<Customer> find() throws ServiceException{
+		List<Customer> customers;
+		try {
+			customers = customerDao.find();
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
+		return customers;
 	}
 
 	public void create(String title, String firstName, String lastName, int type) throws ServiceException {
@@ -97,7 +114,7 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 	}
 
 	public void delete(Serializable id) throws ServiceException {
-		Customer customer = null;
+		Customer customer;
 		try {
 			customer = get(id);
 			delete(customer);

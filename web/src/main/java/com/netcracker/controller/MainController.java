@@ -4,6 +4,7 @@
 package com.netcracker.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -88,8 +89,8 @@ public class MainController {
 	public String findCustomer(ModelMap model, HttpServletRequest request) {
 		String page = "main";
 		List<Customer> customers;
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
+		String firstName = request.getParameter("firstName").trim();
+		String lastName = request.getParameter("lastName").trim();
 		try {
 			if (formIsNotEmpty(firstName, lastName)) {
 				customers = customerService.find(firstName, lastName);
@@ -206,7 +207,7 @@ public class MainController {
 	}
 
 	private boolean formIsNotEmpty(String firstName, String lastName) {
-		if (firstName != null || lastName != null) {
+		if (firstName != "" || lastName != "") {
 			return true;
 		} else {
 			return false;
@@ -231,6 +232,7 @@ public class MainController {
 				customer.setFirstName(request.getParameter("firstName"));
 				customer.setLastName(request.getParameter("lastName"));
 				customer.setCustomerType(type);
+				customer.setModifiedWhen(new Date());
 				isModified = true;
 			}
 		}
