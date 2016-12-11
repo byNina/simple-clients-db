@@ -27,6 +27,7 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 
 	private static String GET_CUSTOMERS_BY_PARAMS = "FROM Customer c WHERE c.firstNameMetaphone LIKE :firstName AND c.lastNameMetaphone LIKE :lastName";
 	private static String GET_LAST_MODIFIED_CUSTOMERS = "FROM Customer c ORDER BY modifiedWhen DESC";
+	private static int MAX_RESULT = 10;
 
 	@Autowired
 	protected SessionFactory sessionFactory;
@@ -56,6 +57,7 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 		List<Customer> customers = new ArrayList<Customer>();
 		try {
 			Query query = getSession().createQuery(GET_LAST_MODIFIED_CUSTOMERS);
+			query.setMaxResults(MAX_RESULT);
 			customers = query.getResultList();
 			log.info("Successfully found 10 last modified customers");
 		} catch (HibernateException e) {

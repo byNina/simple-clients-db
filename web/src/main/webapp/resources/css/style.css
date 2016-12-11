@@ -4,14 +4,16 @@ body {
 	margin: 0;
 	padding: 0;
 	background: url(../images/background76.png) repeat;
-	font-family: 'Clear Sans' url(../fonts/clearsans.ttf);
+	font-family: Calibri;
 	font-size: 16px;
+	color: #663333;
 }
 
 h1, h2, h3 {
 	margin: 0;
 	padding: 0;
 	font-weight: normal;
+	color: #330000;
 }
 
 h1 {
@@ -26,3 +28,69 @@ h3 {
 	font-size: 1.6em;
 }
 
+input {
+		border-radius: 3px; /
+	background: #D2B48C !important;
+	height: 24px;
+	width: 196px;
+	color: #663333;
+	font-size: 13px;
+	
+}
+
+input: active {
+	border: 3px solid #663333;;
+}
+
+table {
+	background: white;
+	max-width: 95%;
+	width: 95%;
+	border-collapse: collapse;
+	text-align: left;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+}
+
+th {
+	font-weight: bolder;
+	color: #330000;
+	border-bottom: 2px solid rgba(105, 8, 26, 0.64);
+	padding: 10px 8px;
+	border-right: none;
+	border-left: none;
+}
+
+td {
+	border-bottom: 1px solid #ccc;
+	color: #663333;
+	padding: 9px 8px;
+	transition: .3s linear;
+	border-right: none;
+	border-left: none;
+}
+
+tr:hover td {
+	background: #FAEBD7;
+}
+
+.container a {
+	text-decoration: none;
+	color: #663333;
+	font-weight: 500;
+}
+
+.header {
+	width: 80%;
+	height: 100px;
+	margin: 0 auto;
+	margin-top: 30px;
+
+}
+
+.container {
+	width: 80%;
+	margin: 0 auto;
+
+}

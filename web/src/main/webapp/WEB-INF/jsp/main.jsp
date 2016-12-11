@@ -5,19 +5,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Simple Clients DB</title>
-<link href="${pageContext.servletContext.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css"
-          media="screen"/>
+<link
+	href="${pageContext.servletContext.contextPath}/resources/css/style.css"
+	rel="stylesheet" type="text/css" media="screen" />
 </head>
 <body>
-	<div class="header">
-		<%@ include file="/WEB-INF/jsp/elements/_header.jsp"%>
-	</div>
-	<div class="container">
-		Main page 
-		<p>${successMessage}</p>
-		<p>${errorMessage}</p>
-		<p></p>
-		<a href="test"> Test</a>
+	<div >
+		<div class="header">
+			<%@ include file="/WEB-INF/jsp/elements/_header.jsp"%>
+		</div>
+		<div class="container">
+			<h3>Welcome to "Simple Client Database".</h3>
+			<span class="success">${successMessage}</p>
+			<span class="error">${errorMessage}</p>
+			<p>To begin your work please:</p>
+			 <p> - to create a new customer press button "Create a new customer"</p>
+			 <p> - to find an existing customer fill form with first name and last name (or only one of them) and press "Find"</p>
+			 <p> - to find last 10 modified customers press "Find" without filling form </p>
+			
+		</div>
 	</div>
 
 

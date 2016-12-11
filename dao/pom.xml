@@ -19,6 +19,13 @@
 			<version>1.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+
+
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -69,7 +76,6 @@
 			<version>5.1.0.Final</version>
 		</dependency>
 
-
 		<!-- Connector to PostgreSQL -->
 		<dependency>
 			<groupId>postgresql</groupId>
@@ -98,6 +104,10 @@
 			<artifactId>spring-orm</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
 
 
 	</dependencies>

@@ -16,8 +16,8 @@
 		<%@ include file="/WEB-INF/jsp/elements/_header.jsp"%>
 	</div>
 	<div class="container">
-		<h2>Create a new customer</h2>
-		<p>${errorMessage}</p>
+		<h3>Create a new customer</h3>
+		<span class="error">${errorMessage}</span>
 		
 		<form name="customerCreation" action="${pageContext.servletContext.contextPath}/createNewCustomer" method="GET">
 			<table>
@@ -46,6 +46,7 @@
 				</tr>
 
 			</table>
+			<p></p>
 			<input type="submit" value="Create">
 		</form>
 
