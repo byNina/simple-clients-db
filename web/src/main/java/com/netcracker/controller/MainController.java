@@ -3,8 +3,6 @@
  */
 package com.netcracker.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.netcracker.dto.Pagination;
 import com.netcracker.exceptions.ServiceException;
 import com.netcracker.messanger.Messanger;
 import com.netcracker.pojos.Customer;
@@ -89,17 +88,27 @@ public class MainController {
 	@RequestMapping(value = "findCustomer", method = RequestMethod.GET)
 	public String findCustomer(ModelMap model, HttpServletRequest request) {
 		String page = "main";
+		Pagination pagination;
+		if (request.getParameter("paginationPage") == null) {
+			pagination = new Pagination(10, 1);
+		} else {
+			int paginationPage = Integer.parseInt(request.getParameter("paginationPage"));
+			pagination = new Pagination(10, paginationPage);
+		}
 		List<Customer> customers;
 		String firstName = request.getParameter("firstName").trim();
 		String lastName = request.getParameter("lastName").trim();
 		try {
 			if (formIsNotEmpty(firstName, lastName)) {
-				customers = customerService.find(firstName, lastName);
+				customers = customerService.find(firstName, lastName, pagination);
 			} else {
 				customers = customerService.find();
 			}
 			if (customers != null && !customers.isEmpty()) {
 				model.addAttribute("customers", customers);
+				model.addAttribute("pagination", pagination);
+				model.addAttribute("firstName", firstName);
+				model.addAttribute("lastName", lastName);
 				page = "customersList";
 			} else {
 				model.addAttribute("error", Messanger.CUSTOMERS_NOT_FOUND);

@@ -9,22 +9,29 @@
 	href="${pageContext.servletContext.contextPath}/resources/css/style.css"
 	rel="stylesheet" type="text/css" media="screen" />
 </head>
+
 <body>
 	<div class="header">
 		<%@ include file="/WEB-INF/jsp/elements/_header.jsp"%>
 	</div>
 	<div class="container">
-		Customer info ${customer.title} ${customer.firstName}
-		${customer.lastName} ${customer.customerType.customerTypeCaption}
-		<form action="${pageContext.servletContext.contextPath}/toModifyCustomer"
+		<h3>Customer info:</h3>
+		<p>${customer.title}${customer.firstName}${customer.lastName}
+			${customer.customerType.customerTypeCaption}</p>
+		<form
+			action="${pageContext.servletContext.contextPath}/toModifyCustomer"
 			method="get">
 			<input type="hidden" name="customerId" value="${customer.id}" /> <input
 				type="submit" value="Modify" />
 		</form>
-		<form action="${pageContext.servletContext.contextPath}/deleteCustomer"
+		<form
+			action="${pageContext.servletContext.contextPath}/deleteCustomer"
 			method="get">
 			<input type="hidden" name="customerId" value="${customer.id}" /> <input
 				type="submit" value="Delete" />
 		</form>
+
+	</div>
+
 </body>
 </html>

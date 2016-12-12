@@ -29,13 +29,12 @@ h3 {
 }
 
 input {
-		border-radius: 3px; /
+	border-radius: 3px; /
 	background: #D2B48C !important;
 	height: 24px;
 	width: 196px;
 	color: #663333;
 	font-size: 13px;
-	
 }
 
 input: active {
@@ -86,11 +85,21 @@ tr:hover td {
 	height: 100px;
 	margin: 0 auto;
 	margin-top: 30px;
-
 }
 
 .container {
 	width: 80%;
 	margin: 0 auto;
+}
 
+.pagination {
+	
+}
+
+.error {
+	color: #FF0000;
+}
+
+.success {
+	color: #006400;
 }

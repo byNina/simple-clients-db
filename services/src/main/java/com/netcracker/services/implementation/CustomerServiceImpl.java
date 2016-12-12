@@ -4,8 +4,6 @@
 package com.netcracker.services.implementation;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.netcracker.dao.CustomerDao;
 import com.netcracker.dao.CustomerTypeDao;
+import com.netcracker.dto.Pagination;
 import com.netcracker.exceptions.DaoException;
 import com.netcracker.exceptions.ServiceException;
 import com.netcracker.pojos.Customer;
@@ -66,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 		}
 	}
 
-	public List<Customer> find(String firstName, String lastName) throws ServiceException {
+	public List<Customer> find(String firstName, String lastName, Pagination pagination) throws ServiceException {
 		List<Customer> customers;
 		String metaFirstName;
 		String metaLastName;
@@ -80,15 +79,20 @@ public class CustomerServiceImpl implements CustomerService<Customer> {
 		} else {
 			metaLastName = "%";
 		}
+
 		try {
-			customers = customerDao.findByParams(metaFirstName, metaLastName);
+			long totalCount = customerDao.totalCount(metaFirstName, metaLastName);
+			pagination.setPages((int)(totalCount / (pagination.getResultsPerPage()) + 1));
+			pagination.setFirstResult((pagination.getPage() - 1) * pagination.getResultsPerPage());
+			pagination.setLastResult(pagination.getPage() * pagination.getResultsPerPage() - 1);
+			customers = customerDao.findByParams(metaFirstName, metaLastName, pagination);
 		} catch (DaoException e) {
 			throw new ServiceException(e);
 		}
 		return customers;
 	}
 
-	public List<Customer> find() throws ServiceException{
+	public List<Customer> find() throws ServiceException {
 		List<Customer> customers;
 		try {
 			customers = customerDao.find();

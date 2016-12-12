@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.netcracker.dao.CustomerDao;
+import com.netcracker.dto.Pagination;
 import com.netcracker.exceptions.DaoException;
 import com.netcracker.pojos.Customer;
 
@@ -25,9 +26,10 @@ import com.netcracker.pojos.Customer;
 public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDao {
 	private static Logger log = Logger.getLogger(CustomerDaoImpl.class);
 
-	private static String GET_CUSTOMERS_BY_PARAMS = "FROM Customer c WHERE c.firstNameMetaphone LIKE :firstName AND c.lastNameMetaphone LIKE :lastName";
-	private static String GET_LAST_MODIFIED_CUSTOMERS = "FROM Customer c ORDER BY modifiedWhen DESC";
-	private static int MAX_RESULT = 10;
+	private static final String GET_CUSTOMERS_BY_PARAMS = "FROM Customer c WHERE c.firstNameMetaphone LIKE :firstName AND c.lastNameMetaphone LIKE :lastName";
+	private static final String GET_LAST_MODIFIED_CUSTOMERS = "FROM Customer c ORDER BY modifiedWhen DESC";
+	private static final String GET_TOTAL_COUNT = "SELECT COUNT(*) as totalCount FROM Customer c WHERE c.firstNameMetaphone LIKE :firstName AND c.lastNameMetaphone LIKE :lastName";
+	private static final int MAX_RESULT = 10;
 
 	@Autowired
 	protected SessionFactory sessionFactory;
@@ -36,13 +38,15 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Customer> findByParams(String metaFirstName, String metaLastName) throws DaoException {
+	public List<Customer> findByParams(String metaFirstName, String metaLastName, Pagination pagination) throws DaoException {
 		log.info("Finding customers by parameters");
 		List<Customer> customers = new ArrayList<Customer>();
 		try {
 			Query query = getSession().createQuery(GET_CUSTOMERS_BY_PARAMS);
 			query.setParameter("firstName", metaFirstName);
 			query.setParameter("lastName", metaLastName);
+			query.setFirstResult(pagination.getFirstResult());
+			query.setMaxResults(pagination.getLastResult());
 			customers = query.getResultList();
 			log.info("Successfully found customers by parameters");
 		} catch (HibernateException e) {
@@ -64,6 +68,21 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 			throw new DaoException(e);
 		}
 		return customers;
+	}
+
+	public  Long totalCount(String metaFirstName, String metaLastName) throws DaoException {
+		log.info("Finding total count of customers by parameters");
+		Long totalCount;
+		try {
+			Query query = getSession().createQuery(GET_TOTAL_COUNT);
+			query.setParameter("firstName", metaFirstName);
+			query.setParameter("lastName", metaLastName);
+			totalCount = (Long) query.getSingleResult();
+			System.out.println("totalCount" + totalCount);
+		}catch (HibernateException e) {
+			throw new DaoException(e);
+		}
+		return totalCount;
 	}
 
 }

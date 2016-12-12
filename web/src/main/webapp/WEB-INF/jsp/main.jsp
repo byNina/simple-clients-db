@@ -16,8 +16,8 @@
 		</div>
 		<div class="container">
 			<h3>Welcome to "Simple Client Database".</h3>
-			<span class="success">${successMessage}</p>
-			<span class="error">${errorMessage}</p>
+			<span class="success">${successMessage}</span>
+			<span class="error">${errorMessage}</span>
 			<p>To begin your work please:</p>
 			 <p> - to create a new customer press button "Create a new customer"</p>
 			 <p> - to find an existing customer fill form with first name and last name (or only one of them) and press "Find"</p>

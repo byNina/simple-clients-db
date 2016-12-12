@@ -6,6 +6,7 @@ package com.netcracker.services;
 import java.io.Serializable;
 import java.util.List;
 
+import com.netcracker.dto.Pagination;
 import com.netcracker.exceptions.ServiceException;
 
 /**
@@ -36,7 +37,7 @@ public interface CustomerService<T> {
 	 * @param lastName
 	 * @return
 	 */
-	List<T> find(String firstName, String lastName) throws ServiceException;
+	List<T> find(String firstName, String lastName, Pagination pagination) throws ServiceException;
 
 	/**
 	 * Find a list of customers without any params

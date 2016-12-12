@@ -38,6 +38,7 @@
 				<prop key="hibernate.cglib.use_reflection_optimizer">${jdbc.cglib.use_reflection_optimizer}</prop>
 				<prop key="hibernate.hbm2ddl.auto">${jdbc.hbm2ddl.auto}</prop>
 				<prop key="hibernate.format_sql">${jdbc.format_sql}</prop>
+				<prop key="connection.isolation">${jdbc.connection.isolation}</prop>
 			</props>
 		</property>
 	</bean>
