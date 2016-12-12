@@ -38,7 +38,8 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Customer> findByParams(String metaFirstName, String metaLastName, Pagination pagination) throws DaoException {
+	public List<Customer> findByParams(String metaFirstName, String metaLastName, Pagination pagination)
+			throws DaoException {
 		log.info("Finding customers by parameters");
 		List<Customer> customers = new ArrayList<Customer>();
 		try {
@@ -70,7 +71,7 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 		return customers;
 	}
 
-	public  Long totalCount(String metaFirstName, String metaLastName) throws DaoException {
+	public Long totalCount(String metaFirstName, String metaLastName) throws DaoException {
 		log.info("Finding total count of customers by parameters");
 		Long totalCount;
 		try {
@@ -78,8 +79,7 @@ public class CustomerDaoImpl extends BaseDaoImpl<Customer> implements CustomerDa
 			query.setParameter("firstName", metaFirstName);
 			query.setParameter("lastName", metaLastName);
 			totalCount = (Long) query.getSingleResult();
-			System.out.println("totalCount" + totalCount);
-		}catch (HibernateException e) {
+		} catch (HibernateException e) {
 			throw new DaoException(e);
 		}
 		return totalCount;
